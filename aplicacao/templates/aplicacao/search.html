@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Viajem Connect {% endblock title %}
+
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="/search">ViagemConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Sair</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock nav %}
+
+{% block pageHeader %}
+    <header class="masthead" style="background-image: url({% static 'assets/img/background-3.jpg' %})">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Viagem Connect</h1>
+                        <span class="subheading">Faça da viagem a sua história favorita!</span>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row pgx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Para onde deseja ir?">
+                        <div class="input-group-append" style="width: 30%;">
+                            <input type="date" class="form-control btn btn-secondary" >
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock pageHeader %}
+
+{% block mainContent %}
+    <div class="container px-4 px-lg-5">
+        <div class="row px-4 px-lg-5">
+            <h2>Recomendações:</h2>
+            {% for viagem in object_list %}
+            <div class="col-4 pb-5">
+                <a href="{{viagem.get_absolute_url}}">
+                <div class="card rounded" style="height: 100%;">
+                    {% if viagem.imagem %}
+                        <img src="{{ viagem.imagem.url }}" class="card-img-top">
+                    {% else %}
+
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h4 class="card-title">{{ viagem.nome }}</h4>
+                        <p class="card-text"><i class="far fa-clock"></i> {{ viagem.dataSaida }}</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ viagem.destino }}</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            {% endfor %}
+             <hr class="my-4" />
+        </div>
+    </div>
+    <div class="container px-4 px-lg-5">
+        <div class="row px-4 px-lg-5">
+            <h2>Destinos:</h2>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+
+                </div>
+            </div>
+        </div>
+        <!-- Divider-->
+        <hr class="my-4" />
+    </div>
+
+{% endblock mainContent %}
+
+
+
+{% block subContent %}
+<div> <!--style="background-image: url({% static 'assets/img/background-3.jpg' %}); background-position: bottom; background-size: cover;"-->
+    <div class="container">
+        <div class="row px-4 px-lg-5">
+            <h2 class="text-center" style="color: black;">Como trabalhamos</h2>
+            <br>
+            <br>
+            <div class="col-3">
+                <div class="card rounded" style="width: 18rem; height: 27rem;">
+                    <img src="{% static 'assets/img/home-bg.jpg' %}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">Crie sua conta e preencha o formulário</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card rounded" style="width: 18rem; height: 27rem;">
+                    <img src="{% static 'assets/img/about-bg.jpg' %}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">Pesquise e explore</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card rounded" style="width: 18rem; height: 27rem;">
+                    <img src="{% static 'assets/img/post-bg.jpg' %}" class="card-img-top" >
+                    <div class="card-body">
+                        <h5 class="card-title">Entre no grupo indicado e faça conexões</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card rounded" style="width: 18rem; height: 27rem;">
+                    <img src="{% static 'assets/img/post-sample-image.jpg' %}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">Siga o roteiro de viagem e aproveite</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+<div class="container">
+    <!-- Divider-->
+    <hr class="my-4" />
+    <h3 class="text-center">Avaliações de Usuários</h3>
+    <div id="carouselAvaliacaoUsuario" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="row d-flex justify-content-center ">
+                    <div class="col-md-6 ">
+                        <div class="card rounded" style="width: 100%;">
+                            <div class="card-body">
+                                <img src="{% static 'assets/img/person_1.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
+                                <h5 class="card-title">Usuário 1: </h5>
+                                <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit tincidunt congue. Aliquam in justo sodales, ullamcorper risus et, laoreet ex. Fusce turpis velit, rhoncus ac diam in, dignissim rutrum velit."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card rounded" style="width: 100%;">
+                            <div class="card-body">
+                                <img src="{% static 'assets/img/person_2.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
+                                <h5 class="card-title">Usuário 2: </h5>
+                                <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit tincidunt congue. Aliquam in justo sodales, ullamcorper risus et, laoreet ex. Fusce turpis velit, rhoncus ac diam in, dignissim rutrum velit."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card rounded" style="width: 100%;">
+                            <div class="card-body">
+                                <img src="{% static 'assets/img/person_3.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
+                                <h5 class="card-title">Usuário 3: </h5>
+                                <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit tincidunt congue. Aliquam in justo sodales, ullamcorper risus et, laoreet ex. Fusce turpis velit, rhoncus ac diam in, dignissim rutrum velit."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAvaliacaoUsuario" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselAvaliacaoUsuario" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Próximo</span>
+        </button>
+    </div>
+    <!-- Divider-->
+    <hr class="my-4" />
+</div>
+{% endblock subContent %}
+
+{% block footer %}
+<footer class="border-top bg-dark" >
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="small text-center text-muted fst-italic">Copyright &copy;  All rights reserved | Viagem Connect 2024</div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock footer %}
