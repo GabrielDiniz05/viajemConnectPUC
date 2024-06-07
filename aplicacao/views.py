@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
@@ -6,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from . models import Viagem, Destino
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 
 
 def HomeView(request):
@@ -67,3 +70,20 @@ def search_destinos(request):
         query = request.GET.get('query')
         destinos = Destino.objects.filter(nome__icontains=query)
         return render(request, 'aplicacao/search_destinos.html', {'destinos': destinos, 'query':query})
+
+
+@login_required
+def join_viagem(request, slug):
+    viagem = get_object_or_404(Viagem, slug=slug)
+    if request.user not in viagem.integrantes.all():
+        viagem.integrantes.add(request.user)
+        viagem.save()
+    return HttpResponseRedirect(reverse('viagem-detail', args=[slug]))
+
+@login_required
+def leave_viagem(request, slug):
+    viagem = get_object_or_404(Viagem, slug=slug)
+    if request.user in viagem.integrantes.all():
+        viagem.integrantes.remove(request.user)
+        viagem.save()
+    return HttpResponseRedirect(reverse('viagem-detail', args=[slug]))
