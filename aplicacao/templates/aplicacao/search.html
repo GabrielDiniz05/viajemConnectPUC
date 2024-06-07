@@ -65,24 +65,24 @@
         <div class="row px-4 px-lg-5">
             <h2>Recomendações:</h2>
             {% for viagem in object_list %}
-            <div class="col-4 pb-5">
-                <a href="{{viagem.get_absolute_url}}">
-                <div class="card rounded" style="height: 100%;">
-                    {% if viagem.imagem %}
-                        <img src="{{ viagem.imagem.url }}" class="card-img-top">
-                    {% else %}
+                <div class="col-4 pb-5">
+                    <a href="{{viagem.get_absolute_url}}">
+                    <div class="card rounded" style="height: 100%;">
+                        {% if viagem.imagem %}
+                            <img src="{{ viagem.imagem.url }}" class="card-img-top">
+                        {% else %}
 
-                    {% endif %}
-                    <div class="card-body text-center">
-                        <h4 class="card-title">{{ viagem.nome }}</h4>
-                        <p class="card-text"><i class="far fa-clock"></i> {{ viagem.dataSaida }}</p>
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <h4 class="card-title">{{ viagem.nome }}</h4>
+                            <p class="card-text"><i class="far fa-clock"></i> {{ viagem.dataSaida }}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ viagem.destino }}</p>
+                        </div>
                     </div>
-                    <div class="card-footer text-center">
-                        <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ viagem.destino }}</p>
-                    </div>
+                    </a>
                 </div>
-                </a>
-            </div>
             {% endfor %}
              <hr class="my-4" />
         </div>

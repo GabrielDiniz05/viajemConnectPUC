@@ -6,7 +6,11 @@
 {% block nav %}
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="/home">ViagemConnect</a>
+        {% if user.is_authenticated %}
+            <a class="navbar-brand" href="/home">ViagemConnect</a>
+        {% else %}
+            <a class="navbar-brand" href="/">ViagemConnect</a>
+        {% endif %}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -61,56 +65,58 @@
 {% endblock pageHeader %}
 
 {% block mainContent %}
-    <div class="container px-4 px-lg-5">
-        <div class="row px-4 px-lg-5">
-            <h2>Recomendações:</h2>
-            {% for destino in destinos %}
-            <div class="col-4 pb-5">
-                <div class="card rounded" style="height: 100%;">
-                    <div class="card-body text-center">
-                        <h4 class="card-title">{{ destino.nome }}</h4>
+    <div class="row px-4 px-lg-5">
+        <div class="col-3 text-center">
+            <h3>Filtros:</h3>
+        </div>
+        <div class="col-9 px-4 px-lg-5">
+            <div class="row">
+                <h2>Resultados da pesquisa - {{ query }}:</h2>
+                {% for destino in destinos %}
+                    {% if destino.viagens.exists %}
+                        {% for viagem in destino.viagens.all %}
+                            <div class="col-4 pb-5">
+                                <a href="{{viagem.get_absolute_url}}">
+                                    <div class="card rounded" style="height: 100%;">
+                                        {% if viagem.imagem %}
+                                            <img src="{{ viagem.imagem.url }}" class="card-img-top">
+                                        {% else %}
 
-                    </div>
-                    <div class="card-footer text-center">
-                        <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ destino.nome }}</p>
-                    </div>
-                </div>
-                </a>
+                                        {% endif %}
+                                        <div class="card-body text-center">
+                                            <h4 class="card-title">{{ viagem.nome }}</h4>
+                                            <p class="card-text"><i class="far fa-clock"></i> {{ viagem.dataSaida }}</p>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ viagem.destino }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor%}
+                    {% else %}
+                        <div class="col-4 pb-5">
+                            <div class="card rounded" style="height: 100%;">
+                                <div class="card-body text-center">
+                                    <h4 class="card-title">{{ destino.nome }}</h4>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ destino.nome }}</p>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                 <hr class="my-4" />
             </div>
-            {% endfor %}
-             <hr class="my-4" />
         </div>
     </div>
-    <div class="container px-4 px-lg-5">
-        <div class="row px-4 px-lg-5">
-            <h2>Destinos:</h2>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-
-                </div>
-            </div>
-        </div>
-        <!-- Divider-->
-        <hr class="my-4" />
-    </div>
-
 {% endblock mainContent %}
 
 
 
 {% block subContent %}
-<div> <!--style="background-image: url({% static 'assets/img/background-3.jpg' %}); background-position: bottom; background-size: cover;"-->
-    <div class="container">
-        <div class="row px-4 px-lg-5">
-
-        </div>
-    </div>
-    <br>
-</div>
-<div class="container">
-    <!-- Divider-->
-    <hr class="my-4" />
-</div>
 {% endblock subContent %}
 
 {% block footer %}

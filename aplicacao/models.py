@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -9,7 +7,6 @@ from django.urls import reverse
 
 class Destino(models.Model):
     nome = models.CharField(max_length=100, default="")
-
     criador = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
 
     class Meta:
@@ -25,7 +22,7 @@ class Viagem(models.Model):
     nome = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
 
-    destino = models.ForeignKey(Destino, on_delete=models.CASCADE)
+    destino = models.ForeignKey(Destino, on_delete=models.CASCADE, related_name='viagens')
     destino_nome = models.CharField(max_length=100, editable=False)
 
     descricao = models.TextField(verbose_name='Descrição')
@@ -40,11 +37,12 @@ class Viagem(models.Model):
         return reverse('viagem-detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
+        self.destino_nome = self.destino.nome
+
         if not self.pk:
             contador = Viagem.objects.filter(destino=self.destino).count() + 1
-            self.nome = f'Grupo - {contador}';
+            self.nome = f'Grupo {contador} - {self.destino_nome}';
 
-        self.destino_nome = self.destino.nome
         super().save(*args, **kwargs)
 
     class Meta:
