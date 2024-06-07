@@ -137,22 +137,26 @@
 <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="">
-                    <h2>Login</h2>
+                <h2>Login</h2>
+                {% if error %}
+                    <p style="color: red">{{ error }}</p>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
                     <div class="inputbox">
-                        <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" required>
-                        <label for="">Email</label>
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" id="username" name="username" required>
+                        <label for="username">Usuário</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-closed-outline"></ion-icon>
-                        <input type="password" required>
-                        <label for="">Senha</label>
+                        <input type="password" id="password" name="password" required>
+                        <label for="password">Senha</label>
                     </div>
                     <div class="forget justify-content-center">
-                        <label for=""><a href="#">Esqueci a senha</a></label>
+                        <label><a href="#">Esqueci a senha</a></label>
                     </div>
-                    <a class="btn btn-outline-primary button-custom" href="/search">Entrar</a>
+                    <button class="btn btn-outline-primary button-custom" type="submit">Entrar</button>
                     <div class="register">
                         <p>Não tem uma conta? <a href="/cadastro">Cadastre-se</a></p>
                     </div>

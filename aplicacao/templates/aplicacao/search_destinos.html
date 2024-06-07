@@ -6,7 +6,7 @@
 {% block nav %}
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="/search">ViagemConnect</a>
+        <a class="navbar-brand" href="/home">ViagemConnect</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -14,10 +14,10 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Sair</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'logout' %}">Sair</a></li>
                 {% else %}
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/cadastro">Cadastre-se</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="accounts/login">Entrar</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}">Entrar</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -26,18 +26,34 @@
 {% endblock nav %}
 
 {% block pageHeader %}
-    {% if object.imagem %}
-        <header class="masthead" style="background-image: url({{ object.imagem.url }})">
-    {% else %}
-        <header class="masthead" style="background-image: url({% static 'assets/img/background-3.jpg' %})">
-    {% endif %}
+    <header class="masthead" style="background-image: url({% static 'assets/img/background-3.jpg' %})">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
-                        <h1>{{ object.nome }}</h1>
-                        <span class="subheading">{{ object.destino }}</span>
+                        <h1>Viagem Connect</h1>
+                        <span class="subheading">Faça da viagem a sua história favorita!</span>
                     </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row pgx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <form action="{% url 'search' %}" method="get">
+                        <div class="input-group mb-3">
+                                {% csrf_token %}
+                                <input type="text" name="query" class="form-control" placeholder="Para onde deseja ir?">
+                                <div class="input-group-append" style="width: 30%;">
+                                    <input type="date" class="form-control btn btn-secondary" >
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+                                </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -45,43 +61,57 @@
 {% endblock pageHeader %}
 
 {% block mainContent %}
-    <div class="row px-4 px-lg-5">
-        <div class="col-3 text-center">
-            <h3>Integrantes:</h3>
-                <p>Usuário 1</p>
-                <p>Usuário 2</p>
-        </div>
-        <div class="col-9 text-center">
-            <div class="row">
-                <h3>Detalhes da viagem</h3>
-                <p>Destino: {{ object.destino }}</p>
-                <p>Data de Saída: {{ object.dataSaida }}</p>
-                <!-- Divider-->
-                <hr class="my-4" />
+    <div class="container px-4 px-lg-5">
+        <div class="row px-4 px-lg-5">
+            <h2>Recomendações:</h2>
+            {% for destino in destinos %}
+            <div class="col-4 pb-5">
+                <div class="card rounded" style="height: 100%;">
+                    <div class="card-body text-center">
+                        <h4 class="card-title">{{ destino.nome }}</h4>
+
+                    </div>
+                    <div class="card-footer text-center">
+                        <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ destino.nome }}</p>
+                    </div>
+                </div>
+                </a>
             </div>
-            <div class="row">
-                <h3>Roteiro de viagem</h3>
-                <!-- Divider-->
-                <hr class="my-4" />
-            </div>
-            <div class="row">
-                <h3>Sugestão de hotéis</h3>
-                <!-- Divider-->
-                <hr class="my-4" />
-            </div>
-            <div class="row">
-                <h3>Sugestão de transportes</h3>
-                <!-- Divider-->
-                <hr class="my-4" />
-            </div>
-            <div class="row">
-                <h3>Grupo WhatsApp</h3>
-                <!-- Divider-->
-                <hr class="my-4" />
-            </div>
+            {% endfor %}
+             <hr class="my-4" />
         </div>
     </div>
+    <div class="container px-4 px-lg-5">
+        <div class="row px-4 px-lg-5">
+            <h2>Destinos:</h2>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+
+                </div>
+            </div>
+        </div>
+        <!-- Divider-->
+        <hr class="my-4" />
+    </div>
+
 {% endblock mainContent %}
+
+
+
+{% block subContent %}
+<div> <!--style="background-image: url({% static 'assets/img/background-3.jpg' %}); background-position: bottom; background-size: cover;"-->
+    <div class="container">
+        <div class="row px-4 px-lg-5">
+
+        </div>
+    </div>
+    <br>
+</div>
+<div class="container">
+    <!-- Divider-->
+    <hr class="my-4" />
+</div>
+{% endblock subContent %}
 
 {% block footer %}
 <footer class="border-top bg-dark" >
