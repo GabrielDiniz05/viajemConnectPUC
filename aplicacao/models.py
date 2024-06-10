@@ -108,15 +108,18 @@ class Formulario(models.Model):
         ('3', 'Conta própria')
     ]
 
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=User)
+    is_completed = models.BooleanField(default=False)
+
     faixaEtaria = models.CharField(max_length=1, choices=FAIXA_ETARIA_CHOICES)
     regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES)
-    regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES)
-    regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES)
-    regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES)
-
-
+    rendaSalarial = models.CharField(max_length=1, choices=RENDA_SALARIAL_CHOICES)
+    frequencia = models.CharField(max_length=1, choices=FREQUENCIA_CHOICES)
+    destinoIdeal = models.CharField(max_length=1, choices=DESTINO_IDEAL_CHOICES)
+    perfil = models.CharField(max_length=1, choices=PERFIL_CHOICES)
+    costume = models.CharField(max_length=1, choices=COSTUME_CHOICES)
+    organizacao = models.CharField(max_length=1, choices=ORGANIZACAO_CHOICES)
 
 
     def __str__(self):
-        return f'Formulário de {self.usuario.name}'
+        return f'Formulário de {self.user}'

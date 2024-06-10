@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="/">ViagemConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-primary rounded" type="submit" href="{% url 'logout' %}">Sair</button>
+                    </form>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/cadastro">Cadastre-se</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}">Entrar</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock nav %}
+
+{% block pageHeader %}
+    <header class="masthead" style="background-image: url({% static 'assets/img/background-3.jpg' %})">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Viagem Connect</h1>
+                        <span class="subheading">Faça da viagem a sua história favorita!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock pageHeader %}
+
+{% block mainContent %}
+    <div class="container px-4 px-lg-5">
+
+        <form method="post" class="card rounded">
+            <h2 class="text-center card-title">Formulário:</h2>
+            {% csrf_token %}
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="faixaEtaria" class="form-label">Qual é a sua faixa etária?</label>
+                    <select class="form-control" id="faixaEtaria" name="faixaEtaria" required>
+                        <option value="1">15 - 20</option>
+                        <option value="2">21 - 29</option>
+                        <option value="3">30 - 40</option>
+                        <option value="4">Acima de 40</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="regiao" class="form-label">Em qual região do Brasil, você reside?</label>
+                    <select class="form-control" id="regiao" name="regiao" required>
+                        <option value="1">Norte</option>
+                        <option value="2">Nordeste</option>
+                        <option value="3">Sul</option>
+                        <option value="4">Sudeste</option>
+                        <option value="5">Centro-oeste</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="rendaSalarial" class="form-label">Qual é a sua renda salarial? </label>
+                    <select class="form-control" id="rendaSalarial" name="rendaSalarial" required>
+                        <option value="1">1 Salário Mínimo</option>
+                        <option value="2">2 Salários Mínimos</option>
+                        <option value="3">Acima de 3 salários mínimos</option>
+                        <option value="4">Não possuo renda</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="frequencia" class="form-label">Com que frequência, você viaja a passeio? </label>
+                    <select class="form-control" id="frequencia" name="frequencia" required>
+                        <option value="1">1 vez ao ano</option>
+                        <option value="2">2 vezes ao ano</option>
+                        <option value="3">3 ou mais vezes</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="destinoIdeal" class="form-label">O caracteriza o seu destino ideal? </label>
+                    <select class="form-control" id="destinoIdeal" name="destinoIdeal" required>
+                        <option value="1">Dentro do seu estado</option>
+                        <option value="2">Outros estados do país</option>
+                        <option value="3">Viagens internacionas</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="perfil" class="form-label">Em uma viagem eu:</label>
+                    <select class="form-control" id="perfil" name="perfil" required>
+                        <option value="1">Gosto de conhecer todos os pontos turísticos e aproveitar até o último segundo</option>
+                        <option value="2">Prefiro ficar no hotel e saio raramente</option>
+                        <option value="3">Mantenho o equilíbrio entre hospedagem e passeios</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="costume" class="form-label">Você tem o costume de viajar:</label>
+                    <select class="form-control" id="costume" name="costume" required>
+                        <option value="1">Sozinho</option>
+                        <option value="2">Em família</option>
+                        <option value="3">Grupo de amigos conhecidos</option>
+                        <option value="4">Grupo de pessoas desconhecidas</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="organizacao" class="form-label">Como você se organiza para viajar?</label>
+                    <select class="form-control" id="organizacao" name="organizacao" required>
+                        <option value="1">Tenho preferência por pacotes prontos (agências)</option>
+                        <option value="2">Excursões</option>
+                        <option value="3">Prefiro me organizar por conta própria</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <br>
+                <button class="btn btn-outline-primary button-custom" type="submit">Enviar</button>
+            </div>
+        </form>
+        <!-- Divider-->
+        <hr class="my-4" />
+    </div>
+{% endblock mainContent %}

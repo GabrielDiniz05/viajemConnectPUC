@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Viagem, Destino
+from .models import Viagem, Destino, Formulario
 
 
 @admin.register(Destino)
@@ -13,5 +13,10 @@ class ViagemAdmin(admin.ModelAdmin):
     list_display = ('nome', 'destino', 'criador', 'dataSaida')
     search_fields = ('nome', 'destino')
     prepopulated_fields = {'slug':['nome']}
+
+@admin.register(Formulario)
+class FormularioAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+    search_fields = ('user',)
 
 

@@ -4,11 +4,12 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from . models import Viagem, Destino
+from .models import Viagem, Destino, Formulario
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
+from .forms import FormularioForm
 
 
 def HomeView(request):
@@ -53,6 +54,12 @@ def LoginView(request):
         user = authenticate(request,  username=username, password=password)
         if user is not None:
             login(request, user)
+            try:
+                formulario = Formulario.objects.get(user=user)
+                if not formulario.is_completed:
+                    return redirect('formulario')
+            except Formulario.DoesNotExist:
+                return redirect('formulario')
             return redirect('home')
         else:
             return render(request, 'login.html', {'error': 'Login inválido'})
@@ -80,6 +87,7 @@ def join_viagem(request, slug):
         viagem.save()
     return HttpResponseRedirect(reverse('viagem-detail', args=[slug]))
 
+
 @login_required
 def leave_viagem(request, slug):
     viagem = get_object_or_404(Viagem, slug=slug)
@@ -87,3 +95,47 @@ def leave_viagem(request, slug):
         viagem.integrantes.remove(request.user)
         viagem.save()
     return HttpResponseRedirect(reverse('viagem-detail', args=[slug]))
+
+
+@login_required
+def FormularioView(request):
+    try:
+        formulario = Formulario.objects.get(user=request.user)
+    except Formulario.DoesNotExist:
+        formulario = None
+
+    if formulario:
+        if formulario.is_completed:
+            return redirect('home')
+
+    if request.method == 'POST':
+        form = FormularioForm(request.POST)
+        if form.is_valid():
+            if formulario:
+                formulario.is_completed = True
+                formulario.faixaEtaria = form.cleaned_data['faixaEtaria']
+                formulario.regiao = form.cleaned_data['regiao']
+                formulario.rendaSalarial = form.cleaned_data['rendaSalarial']
+                formulario.frequencia = form.cleaned_data['frequencia']
+                formulario.destinoIdeal = form.cleaned_data['destinoIdeal']
+                formulario.perfil = form.cleaned_data['perfil']
+                formulario.costume = form.cleaned_data['costume']
+                formulario.organizacao = form.cleaned_data['organizacao']
+            else:
+                formulario = Formulario.objects.create(user=request.user)
+                formulario.is_completed = True;
+                formulario.faixaEtaria = form.cleaned_data['faixaEtaria']
+                formulario.regiao = form.cleaned_data['regiao']
+                formulario.rendaSalarial = form.cleaned_data['rendaSalarial']
+                formulario.frequencia = form.cleaned_data['frequencia']
+                formulario.destinoIdeal = form.cleaned_data['destinoIdeal']
+                formulario.perfil = form.cleaned_data['perfil']
+                formulario.costume = form.cleaned_data['costume']
+                formulario.organizacao = form.cleaned_data['organizacao']
+            formulario.save()
+            return redirect('home')
+    else:
+        form = FormularioForm()
+    return render(request, 'aplicacao/formulario.html', {'form': form})
+
+

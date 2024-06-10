@@ -12,5 +12,5 @@ urlpatterns = [
     path('viagem/<slug:slug>/', views.AplicacaoDetailView.as_view(), name='viagem-detail'),
     path('viagem/<slug:slug>/join', views.join_viagem, name='join-viagem'),
     path('viagem/<slug:slug>/leave/',views.leave_viagem, name='leave-viagem'),
-
+    path('formulario/', views.FormularioView, name='formulario'),
 ]
