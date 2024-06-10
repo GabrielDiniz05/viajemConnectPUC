@@ -51,3 +51,72 @@ class Viagem(models.Model):
 
     def __str__(self):
         return f'{self.nome} - {self.destino_nome}'
+
+
+
+class Formulario(models.Model):
+    FAIXA_ETARIA_CHOICES = [
+        ('1', '15 - 20'),
+        ('2', '21 - 29'),
+        ('3', '30 - 40'),
+        ('4', 'Acima de 40')
+    ]
+
+    REGIAO_CHOICES = [
+        ('1', 'Norte'),
+        ('2', 'Nordeste'),
+        ('3', 'Sul'),
+        ('4', 'Sudeste'),
+        ('5', 'Centro-Oeste')
+    ]
+
+    RENDA_SALARIAL_CHOICES = [
+        ('1', '1 Salario Minimo'),
+        ('2', '2 Salario Minimo'),
+        ('3', 'Acima de 3 Salario Minimo'),
+        ('4', 'Nao possuo renda')
+    ]
+
+    FREQUENCIA_CHOICES = [
+        ('1', '1 vez ao ano'),
+        ('2', '2 vezes ao ano'),
+        ('3', '3 ou mais vezes')
+    ]
+
+    DESTINO_IDEAL_CHOICES = [
+        ('1', 'Dentro do seu estado'),
+        ('2', 'Outros estados do pais'),
+        ('3', 'Viagens internacionas')
+    ]
+
+    PERFIL_CHOICES = [
+        ('1', 'Aproveitar até o último segundo'),
+        ('2', 'Ficar no hotel e sair raramente'),
+        ('3', 'Mantenho o equilibrio')
+    ]
+
+    COSTUME_CHOICES = [
+        ('1', 'Sozinho'),
+        ('2', 'Em familia'),
+        ('3', 'Grupos de amigos'),
+        ('4', 'Grupo de pessoas desconhecidas')
+    ]
+
+    ORGANIZACAO_CHOICES = [
+        ('1', 'Pacotes prontos'),
+        ('2', 'Excursões'),
+        ('3', 'Conta própria')
+    ]
+
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    faixaEtaria = models.CharField(max_length=1, choices=FAIXA_ETARIA_CHOICES)
+    regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES)
+    regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES)
+    regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES)
+    regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES)
+
+
+
+
+    def __str__(self):
+        return f'Formulário de {self.usuario.name}'
