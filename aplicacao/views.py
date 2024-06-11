@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import Viagem, Destino, Formulario
+from .models import Viagem, Destino, Formulario, Roteiro
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-from .forms import FormularioForm
+from .forms import FormularioForm, ViagemForm
+from django.http import JsonResponse
+from django.urls import reverse_lazy
 
 
 def HomeView(request):
@@ -139,3 +142,22 @@ def FormularioView(request):
     return render(request, 'aplicacao/formulario.html', {'form': form})
 
 
+class CriarViagemView(LoginRequiredMixin, CreateView):
+    model = Viagem
+    form_class = ViagemForm
+    template_name = 'aplicacao/criar_viagem.html'
+    success_url = reverse_lazy('home')  # Substitua 'home' pela URL que você deseja redirecionar após a criação
+
+    def form_valid(self, form):
+        form.instance.criador = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ViagemForm(self.request.POST or None)
+        return context
+
+@login_required
+def get_roteiros(request, destino_id):
+    roteiros = Roteiro.objects.filter(destino_id=destino_id).values('id', 'sobre')
+    return JsonResponse(list(roteiros), safe=False)

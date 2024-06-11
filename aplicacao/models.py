@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-
+from ckeditor.fields import RichTextField
 from django.urls import reverse
 
 
@@ -17,6 +17,20 @@ class Destino(models.Model):
         return self.nome
 
 
+class Roteiro(models.Model):
+    sobre = RichTextField(verbose_name='Sobre')
+    como_chegar = RichTextField(verbose_name='Como chegar?')
+    hospedagem = RichTextField(verbose_name='Hospedagem')
+    transporte = RichTextField(verbose_name='Transporte')
+    o_que_levar = RichTextField(verbose_name='O que levar?')
+    quando_ir = RichTextField(verbose_name='Quando ir?')
+    passeios = RichTextField(verbose_name='Passeios')
+
+    destino = models.ForeignKey(Destino, on_delete=models.CASCADE, related_name='roteiros', default=None)
+
+    def __str__(self):
+        return f'Roteiro para o destino de {self.destino}'
+
 
 class Viagem(models.Model):
     nome = models.CharField(max_length=250)
@@ -24,6 +38,8 @@ class Viagem(models.Model):
 
     destino = models.ForeignKey(Destino, on_delete=models.CASCADE, related_name='viagens')
     destino_nome = models.CharField(max_length=100, editable=False)
+
+    roteiro = models.ForeignKey(Roteiro, on_delete=models.SET_NULL, null=True, blank=True)
 
     descricao = models.TextField(verbose_name='Descrição')
     imagem = models.ImageField(upload_to='img-viagens', blank=True, null=True)

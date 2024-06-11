@@ -1,11 +1,25 @@
 from django import forms
-from .models import Viagem, Formulario
+from .models import Viagem, Formulario, Roteiro
 
 
 class ViagemForm(forms.ModelForm):
     class Meta:
         model = Viagem
-        fields = ['slug', 'destino', 'descricao', 'imagem', 'dataSaida', 'dataVolta', 'integrantes']
+        fields = ['nome', 'destino', 'roteiro', 'descricao', 'imagem', 'dataSaida', 'dataVolta', 'integrantes']
+
+    def __init__(self, *args, **kwargs):
+        super(ViagemForm, self).__init__(*args, **kwargs)
+        self.fields['roteiro'] = forms.ModelChoiceField(queryset=Roteiro.objects.none(), required=False, label='Roteiro')
+
+        if 'destino' in self.data:
+            try:
+                destino_id = int(self.data.get('destino'))
+                self.fields['roteiro'].queryset = Roteiro.objects.filter(destino_id=destino_id)
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk:
+            self.fields['roteiro'].queryset = self.instance.destino.roteiros.all()
+
 
 
 class SearchForm(forms.Form):

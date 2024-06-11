@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Viajem Connect {% endblock title %}
+{% block title %} Viagem Connect {% endblock title %}
 
 {% block nav %}
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
@@ -65,22 +65,32 @@
             {% if user.is_authenticated %}
                 {% if user in object.integrantes.all %}
                     <div class="row">
-                        <h3 class="text-center">Roteiro de viagem</h3>
+                        <h2 class="text-center">Roteiro de viagem</h2>
+                        <h4>Sobre:</h4>
+                        <p>{{ object.roteiro.sobre|safe }}</p>
+                        <h4>Como chegar?</h4>
+                        <p>{{ object.roteiro.como_chegar|safe }}</p>
+                        <h4>Quando ir?</h4>
+                        <p>{{ object.roteiro.quando_ir|safe }}</p>
+                        <h4>Passeios:</h4>
+                        <p>{{ object.roteiro.passeios|safe }}</p>
                         <!-- Divider-->
                         <hr class="my-4" />
                     </div>
                     <div class="row">
-                        <h3 class="text-center">Sugestão de hotéis</h3>
+                        <h2 class="text-center">Sugestão de hotéis</h2>
+                        <p>{{ object.roteiro.hospedagem|safe }}</p>
                         <!-- Divider-->
                         <hr class="my-4" />
                     </div>
                     <div class="row">
-                        <h3 class="text-center">Sugestão de transportes</h3>
+                        <h2 class="text-center">Sugestão de transportes</h2>
+                        <p>{{ object.roteiro.transporte|safe }}</p>
                         <!-- Divider-->
                         <hr class="my-4" />
                     </div>
                     <div class="row">
-                        <h3 class="text-center">Grupo WhatsApp</h3>
+                        <h2 class="text-center">Grupo WhatsApp</h2>
                         <!-- Divider-->
                         <hr class="my-4" />
                     </div>
@@ -121,7 +131,7 @@
                         </form>
                     {% endif %}
                 {% else %}
-                    <p><a href="{% url 'login' %}">Faça login para entrar no grupo.</a></p>
+                    <p><a href="{% url 'login' %}?next={{ request.path }}">Faça login para entrar no grupo.</a></p>
                 {% endif %}
             </div>
         </div>

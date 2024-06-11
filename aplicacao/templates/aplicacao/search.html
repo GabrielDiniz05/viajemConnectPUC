@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Viajem Connect {% endblock title %}
+{% block title %} Viagem Connect {% endblock title %}
 
 {% block nav %}
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
@@ -66,7 +66,7 @@
 {% block mainContent %}
     <div class="container px-4 px-lg-5">
         <div class="row px-4 px-lg-5">
-            <h2>Recomendações:</h2>
+            <h2>Destinos:</h2>
             {% for viagem in object_list %}
                 <div class="col-4 pb-5">
                     <a href="{{viagem.get_absolute_url}}">
@@ -92,7 +92,7 @@
     </div>
     <div class="container px-4 px-lg-5">
         <div class="row px-4 px-lg-5">
-            <h2>Destinos:</h2>
+            <h2>Recomendações:</h2>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
 

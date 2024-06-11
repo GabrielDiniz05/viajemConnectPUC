@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Viagem, Destino, Formulario
+from .models import Viagem, Destino, Formulario, Roteiro
 
 
 @admin.register(Destino)
@@ -18,5 +18,11 @@ class ViagemAdmin(admin.ModelAdmin):
 class FormularioAdmin(admin.ModelAdmin):
     list_display = ('user',)
     search_fields = ('user',)
+
+
+@admin.register(Roteiro)
+class RoteiroAdmin(admin.ModelAdmin):
+    list_display = ('destino', )
+    search_fields = ('destino',)
 
 
