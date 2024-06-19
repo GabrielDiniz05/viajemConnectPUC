@@ -54,7 +54,10 @@
                                 {% csrf_token %}
                                 <input type="text" name="query" class="form-control" placeholder="Para onde deseja ir?">
                                 <div class="input-group-append" style="width: 30%;">
-                                    <input type="date" class="form-control btn btn-secondary" >
+                                    <input type="date" name="data_inicio" class="form-control btn btn-primary" value="{{ form.data_inicio.value }}">
+                                </div>
+                                <div class="input-group-append" style="width: 30%;">
+                                    <input type="date" name="data_fim" class="form-control btn btn-secondary" value="{{ form.data_fim.value }}">
                                 </div>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
@@ -88,7 +91,8 @@
                                         {% endif %}
                                         <div class="card-body text-center">
                                             <h4 class="card-title">{{ viagem.nome }}</h4>
-                                            <p class="card-text"><i class="far fa-clock"></i> {{ viagem.dataSaida }}</p>
+                                            <p class="card-text"><i class="far fa-clock"></i> Saída: {{ viagem.dataSaida }}</p>
+                                            <p class="card-text"><i class="far fa-clock"></i> Volta: {{ viagem.dataVolta }}</p>
                                         </div>
                                         <div class="card-footer text-center">
                                             <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ viagem.destino }}</p>

@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-from .forms import FormularioForm, ViagemForm
+from .forms import FormularioForm, ViagemForm, SearchForm
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
@@ -76,10 +76,28 @@ def LogoutView(request):
 
 
 def search_destinos(request):
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        destinos = Destino.objects.filter(nome__icontains=query)
-        return render(request, 'aplicacao/search_destinos.html', {'destinos': destinos, 'query':query})
+    form = SearchForm(request.GET or None)
+    destinos = Destino.objects.all()
+
+    if form.is_valid():
+        query = form.cleaned_data.get('query')
+        data_inicio = form.cleaned_data.get('data_inicio')
+        data_fim = form.cleaned_data.get('data_fim')
+
+        print(f"Query: {query}, Data Início: {data_inicio}, Data Fim: {data_fim}")
+
+        if query:
+            destinos = destinos.filter(nome__icontains=query)
+
+        if data_inicio or data_fim:
+            viagens = Viagem.objects.all()
+            if data_inicio and not data_fim:
+                viagens = viagens.filter(dataSaida__gte=data_inicio)
+            if data_fim and not data_inicio:
+                viagens = viagens.filter(dataVolta__lte=data_fim)
+            destinos = destinos.filter(id__in=viagens.values_list('destino_id', flat=True))
+
+    return render(request, 'aplicacao/search_destinos.html', {'form': form, 'destinos': destinos})
 
 
 @login_required

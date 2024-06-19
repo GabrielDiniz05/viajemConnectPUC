@@ -23,7 +23,9 @@ class ViagemForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    query = forms.CharField(label='Pesquisar Destinos', max_length=100)
+    query = forms.CharField(required=False,label='Pesquisar Destinos', max_length=100)
+    data_inicio = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Data de Início')
+    data_fim = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Data de Fim')
 
 
 class FormularioForm(forms.ModelForm):
