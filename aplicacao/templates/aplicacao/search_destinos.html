@@ -72,10 +72,7 @@
 
 {% block mainContent %}
     <div class="row px-4 px-lg-5">
-        <div class="col-3 text-center">
-            <h3>Filtros:</h3>
-        </div>
-        <div class="col-9 px-4 px-lg-5">
+        <div class="col-12 px-4 px-lg-5">
             <div class="row">
                 <h2>Resultados da pesquisa - {{ query }}:</h2>
                 {% for destino in destinos %}
@@ -120,11 +117,6 @@
         </div>
     </div>
 {% endblock mainContent %}
-
-
-
-{% block subContent %}
-{% endblock subContent %}
 
 {% block footer %}
 <footer class="border-top bg-dark" >

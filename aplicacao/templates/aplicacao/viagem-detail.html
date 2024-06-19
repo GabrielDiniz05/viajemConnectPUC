@@ -90,9 +90,20 @@
                         <hr class="my-4" />
                     </div>
                     <div class="row">
-                        <h2 class="text-center">Grupo WhatsApp</h2>
-                        <!-- Divider-->
-                        <hr class="my-4" />
+                        {% if object.grupoChat %}
+                            <h2 class="text-center">Grupo WhatsApp</h2>
+                            <div class="text-center">
+                                <p>Entre no grupo e converse com os integrantes: </p>
+                                <a href="{{ object.grupoChat }}" target="_blank">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-whatsapp fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </div>
+                            <!-- Divider-->
+                            <hr class="my-4" />
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endif %}

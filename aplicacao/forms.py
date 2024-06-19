@@ -1,5 +1,5 @@
 from django import forms
-from .models import Viagem, Formulario, Roteiro
+from .models import Viagem, Formulario, Roteiro, Destino
 
 
 class ViagemForm(forms.ModelForm):
@@ -26,6 +26,7 @@ class SearchForm(forms.Form):
     query = forms.CharField(required=False,label='Pesquisar Destinos', max_length=100)
     data_inicio = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Data de Início')
     data_fim = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label='Data de Fim')
+    regiao = forms.ChoiceField(required=False, choices=Destino.REGIAO_CHOICES, label='Região')
 
 
 class FormularioForm(forms.ModelForm):

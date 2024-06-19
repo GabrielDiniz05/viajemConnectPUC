@@ -18,6 +18,34 @@ from django.urls import reverse_lazy
 def HomeView(request):
     return render(request, 'aplicacao/home.html')
 
+@login_required
+def SearchHomeView(request):
+    user = request.user
+    recomendacoes_destinos = Destino.objects.none()
+    recomendacoes_viagens = Viagem.objects.none()
+
+    if user.is_authenticated:
+        try:
+            user_form = Formulario.objects.get(user=user)
+            recomendacoes_destinos = Destino.objects.filter(regiao=user_form.regiao)
+            if user_form.destinoIdeal == '3':  # Exemplo: usuário prefere viagens internacionais
+                recomendacoes_destinos = recomendacoes_destinos.filter(internacional=True)
+            elif user_form.destinoIdeal == '2':  # Exemplo: usuário prefere outros estados do país
+                recomendacoes_destinos = recomendacoes_destinos.filter(internacional=False)
+
+            recomendacoes_viagens = Viagem.objects.filter(destino__in=recomendacoes_destinos)
+
+        except Formulario.DoesNotExist:
+            pass
+
+    todas_viagens = Viagem.objects.all()
+
+    return render(request, 'aplicacao/search.html', {
+        'recomendacoes_destinos': recomendacoes_destinos,
+        'recomendacoes_viagens': recomendacoes_viagens,
+        'todas_viagens': todas_viagens,
+    })
+
 class AplicacaoListViewSearch(ListView):
     model = Viagem
     template_name = 'aplicacao/search.html'

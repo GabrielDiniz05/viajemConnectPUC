@@ -6,8 +6,18 @@ from django.urls import reverse
 
 
 class Destino(models.Model):
+    REGIAO_CHOICES = [
+        ('1', 'Norte'),
+        ('2', 'Nordeste'),
+        ('3', 'Sul'),
+        ('4', 'Sudeste'),
+        ('5', 'Centro-Oeste')
+    ]
+
     nome = models.CharField(max_length=100, default="")
     criador = models.ForeignKey(User, on_delete=models.CASCADE, default=User)
+    internacional = models.BooleanField(default=False)
+    regiao = models.CharField(max_length=1, choices=REGIAO_CHOICES, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Destino'
@@ -48,6 +58,7 @@ class Viagem(models.Model):
     dataCriacao = models.DateTimeField(verbose_name='Data de Criação', auto_now_add=True)
     dataSaida = models.DateTimeField(verbose_name='Data de Saída')
     dataVolta = models.DateTimeField(verbose_name='Data da Volta', default=timezone.now())
+    grupoChat = models.CharField(max_length=250, verbose_name='Link do grupo do Whatsapp', null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('viagem-detail', args=[self.slug])

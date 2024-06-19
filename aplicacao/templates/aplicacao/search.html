@@ -69,8 +69,36 @@
 {% block mainContent %}
     <div class="container px-4 px-lg-5">
         <div class="row px-4 px-lg-5">
+            <h2>Recomendações:</h2>
+            {% for viagem in recomendacoes_viagens %}
+                <div class="col-4 pb-5">
+                    <a href="{{viagem.get_absolute_url}}">
+                    <div class="card rounded" style="height: 100%;">
+                        {% if viagem.imagem %}
+                            <img src="{{ viagem.imagem.url }}" class="card-img-top">
+                        {% else %}
+
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <h4 class="card-title">{{ viagem.nome }}</h4>
+                            <p class="card-text"><i class="far fa-clock"></i> Saída: {{ viagem.dataSaida }}</p>
+                            <p class="card-text"><i class="far fa-clock"></i> Volta: {{ viagem.dataVolta }}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ viagem.destino }}</p>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Divider-->
+        <hr class="my-4" />
+    </div>
+    <div class="container px-4 px-lg-5">
+        <div class="row px-4 px-lg-5">
             <h2>Destinos:</h2>
-            {% for viagem in object_list %}
+            {% for viagem in todas_viagens %}
                 <div class="col-4 pb-5">
                     <a href="{{viagem.get_absolute_url}}">
                     <div class="card rounded" style="height: 100%;">
@@ -94,131 +122,116 @@
              <hr class="my-4" />
         </div>
     </div>
-    <div class="container px-4 px-lg-5">
-        <div class="row px-4 px-lg-5">
-            <h2>Recomendações:</h2>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
+{% endblock mainContent %}
 
+{% block subContent %}
+    <div> <!--style="background-image: url({% static 'assets/img/background-3.jpg' %}); background-position: bottom; background-size: cover;"-->
+        <div class="container">
+            <div class="row px-4 px-lg-5">
+                <h2 class="text-center" style="color: black;">Como trabalhamos</h2>
+                <br>
+                <br>
+                <div class="col-3">
+                    <div class="card rounded" style="width: 18rem; height: 27rem;">
+                        <img src="{% static 'assets/img/home-bg.jpg' %}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Crie sua conta e preencha o formulário</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card rounded" style="width: 18rem; height: 27rem;">
+                        <img src="{% static 'assets/img/about-bg.jpg' %}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Pesquise e explore</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card rounded" style="width: 18rem; height: 27rem;">
+                        <img src="{% static 'assets/img/post-bg.jpg' %}" class="card-img-top" >
+                        <div class="card-body">
+                            <h5 class="card-title">Entre no grupo indicado e faça conexões</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="card rounded" style="width: 18rem; height: 27rem;">
+                        <img src="{% static 'assets/img/post-sample-image.jpg' %}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Siga o roteiro de viagem e aproveite</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <br>
+    </div>
+    <div class="container">
+        <!-- Divider-->
+        <hr class="my-4" />
+        <h3 class="text-center">Avaliações de Usuários</h3>
+        <div id="carouselAvaliacaoUsuario" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row d-flex justify-content-center ">
+                        <div class="col-md-6 ">
+                            <div class="card rounded" style="width: 100%;">
+                                <div class="card-body">
+                                    <img src="{% static 'assets/img/person_1.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
+                                    <h5 class="card-title">João M.: </h5>
+                                    <p class="card-text">"Adorei a experiência! Sempre tive dificuldade de encontrar companhia para viajar e esse site resolveu meu problema. Conheci pessoas incríveis e fui para lugares que nunca imaginei. Já estou planejando a próxima viagem com meus novos amigos. Super recomendo!"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card rounded" style="width: 100%;">
+                                <div class="card-body">
+                                    <img src="{% static 'assets/img/person_2.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
+                                    <h5 class="card-title">Ana S.: </h5>
+                                    <p class="card-text">"O site é muito intuitivo e fácil de usar. A minha viagem para o Chile foi maravilhosa e fiz amizades que quero levar para a vida toda. Só achei que poderiam ter mais opções de destinos. Fora isso, a experiência foi ótima!"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card rounded" style="width: 100%;">
+                                <div class="card-body">
+                                    <img src="{% static 'assets/img/person_3.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
+                                    <h5 class="card-title">Beatriz L.: </h5>
+                                    <p class="card-text">"Viajar sozinha sempre foi um desafio para mim, mas com esse site encontrei pessoas com interesses semelhantes e nos divertimos muito. A viagem para o Rio de Janeiro foi inesquecível! O processo de encontrar companheiros de viagem foi super tranquilo e seguro. Recomendo para todos que querem novas aventuras!"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselAvaliacaoUsuario" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselAvaliacaoUsuario" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Próximo</span>
+            </button>
         </div>
         <!-- Divider-->
         <hr class="my-4" />
     </div>
-
-{% endblock mainContent %}
-
-
-
-{% block subContent %}
-<div> <!--style="background-image: url({% static 'assets/img/background-3.jpg' %}); background-position: bottom; background-size: cover;"-->
-    <div class="container">
-        <div class="row px-4 px-lg-5">
-            <h2 class="text-center" style="color: black;">Como trabalhamos</h2>
-            <br>
-            <br>
-            <div class="col-3">
-                <div class="card rounded" style="width: 18rem; height: 27rem;">
-                    <img src="{% static 'assets/img/home-bg.jpg' %}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">Crie sua conta e preencha o formulário</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-3">
-                <div class="card rounded" style="width: 18rem; height: 27rem;">
-                    <img src="{% static 'assets/img/about-bg.jpg' %}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">Pesquise e explore</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-3">
-                <div class="card rounded" style="width: 18rem; height: 27rem;">
-                    <img src="{% static 'assets/img/post-bg.jpg' %}" class="card-img-top" >
-                    <div class="card-body">
-                        <h5 class="card-title">Entre no grupo indicado e faça conexões</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-2">
-                <div class="card rounded" style="width: 18rem; height: 27rem;">
-                    <img src="{% static 'assets/img/post-sample-image.jpg' %}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">Siga o roteiro de viagem e aproveite</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-</div>
-<div class="container">
-    <!-- Divider-->
-    <hr class="my-4" />
-    <h3 class="text-center">Avaliações de Usuários</h3>
-    <div id="carouselAvaliacaoUsuario" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="row d-flex justify-content-center ">
-                    <div class="col-md-6 ">
-                        <div class="card rounded" style="width: 100%;">
-                            <div class="card-body">
-                                <img src="{% static 'assets/img/person_1.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
-                                <h5 class="card-title">Usuário 1: </h5>
-                                <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit tincidunt congue. Aliquam in justo sodales, ullamcorper risus et, laoreet ex. Fusce turpis velit, rhoncus ac diam in, dignissim rutrum velit."</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card rounded" style="width: 100%;">
-                            <div class="card-body">
-                                <img src="{% static 'assets/img/person_2.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
-                                <h5 class="card-title">Usuário 2: </h5>
-                                <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit tincidunt congue. Aliquam in justo sodales, ullamcorper risus et, laoreet ex. Fusce turpis velit, rhoncus ac diam in, dignissim rutrum velit."</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card rounded" style="width: 100%;">
-                            <div class="card-body">
-                                <img src="{% static 'assets/img/person_3.jpg' %}" alt="Image" class="rounded" style="width: 10%;">
-                                <h5 class="card-title">Usuário 3: </h5>
-                                <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit tincidunt congue. Aliquam in justo sodales, ullamcorper risus et, laoreet ex. Fusce turpis velit, rhoncus ac diam in, dignissim rutrum velit."</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAvaliacaoUsuario" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselAvaliacaoUsuario" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Próximo</span>
-        </button>
-    </div>
-    <!-- Divider-->
-    <hr class="my-4" />
-</div>
 {% endblock subContent %}
 
 {% block footer %}
